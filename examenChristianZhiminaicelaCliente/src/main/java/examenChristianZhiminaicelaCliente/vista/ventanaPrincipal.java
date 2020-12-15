@@ -76,8 +76,8 @@ public class ventanaPrincipal extends JFrame {
               
             final Context context = new InitialContext(jndiProperties);  
               
-            final String lookupName = "";
-              
+            final String lookupName = "ejb:/examenChristianZhiminaicelaServidor/gestionNotificacionON!app.g1.examenChristianZhiminaicelaServidor.negocio.gestionNotificacionRemoto";
+            
             this.on = (gestionNotificacionRemoto) context.lookup(lookupName);  
               
         } catch (Exception ex) {  
