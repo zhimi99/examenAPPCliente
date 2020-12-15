@@ -1,11 +1,18 @@
 package examenChristianZhiminaicelaCliente.vista;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
 
+import java.awt.EventQueue;
+import java.util.Hashtable;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import examenChristianZhiminaicelaCliente.negocio.gestionNotificacionRemoto;
+
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.JList;
@@ -13,6 +20,8 @@ import javax.swing.JList;
 public class ventanaPrincipal extends JFrame {
 
 	private JPanel contentPane;
+	
+	private  gestionNotificacionRemoto on; 
 
 	/**
 	 * Launch the application.
@@ -52,4 +61,30 @@ public class ventanaPrincipal extends JFrame {
 		JList list = new JList();
 		panel.add(list);
 	}
+	
+	public void referenciarONCliente() throws Exception {
+		try {  
+            final Hashtable<String, Comparable> jndiProperties =  
+                    new Hashtable<String, Comparable>();  
+            jndiProperties.put(Context.INITIAL_CONTEXT_FACTORY,  
+                    "org.wildfly.naming.client.WildFlyInitialContextFactory");  
+            jndiProperties.put("jboss.naming.client.ejb.context", true);  
+              
+            jndiProperties.put(Context.PROVIDER_URL, "http-remoting://localhost:8080");  
+            jndiProperties.put(Context.SECURITY_PRINCIPAL, "ejbremoto");  //usuario creado en wildfly
+            jndiProperties.put(Context.SECURITY_CREDENTIALS, "ejbremoto");  
+              
+            final Context context = new InitialContext(jndiProperties);  
+              
+            final String lookupName = "";
+              
+            this.on = (gestionNotificacionRemoto) context.lookup(lookupName);  
+              
+        } catch (Exception ex) {  
+            ex.printStackTrace();  
+            throw ex;  
+        }
+	}
+	
+	
 }
